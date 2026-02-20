@@ -61,6 +61,7 @@ type Project = {
   description: string;
   tech: string[];
   github?: string;
+  website?: string;
   color: string;
   colorDark?: string;
   colorAccent?: string;
@@ -762,6 +763,14 @@ function Modal({ project, onClose }: { project: Project | null; onClose: () => v
             fontFamily:"monospace",fontSize:13,fontWeight:"600",letterSpacing:"0.5px",
           }}>↗ View on GitHub</a>
         )}
+        {project.website && (
+          <a href={project.website} target="_blank" rel="noreferrer" style={{
+            display:"inline-flex",alignItems:"center",gap:8,
+            background:"rgba(167,139,250,0.08)",border:`1px solid rgba(167,139,250,0.28)`,
+            color:C.accent,padding:"13px 30px",borderRadius:9,textDecoration:"none",
+            fontFamily:"monospace",fontSize:13,fontWeight:"600",letterSpacing:"0.5px",
+          }}>↗ View Website</a>
+        )}
       </div>
     </div>
   );
@@ -832,7 +841,7 @@ const EXPERIENCES = [
   {title:"Fullstack Engineer",company:"WotBusiness · Remote",period:"JAN 2026 – PRESENT",
    quote:"Built a high-performance, real-time SaaS frontend with Next.js and TypeScript, improving transparency and trust for SME logistics users.",x:4000},
   {title:"Junior Frontend Engineer",company:"Boolbyte Technologies · Remote",period:"NOV 2024 – DEC 2025",
-   quote:"Collaborated on scalable React applications, gaining strong experience with professional workflows, code reviews, and version control.",x:4450},
+   quote:"Responsible for the frontend development of Boolbyte's flagship product; ByteForms, and ByteEngine. Gained strong experience with professional workflows, code reviews, and version control.",x:4450},
   {title:"Web Developer",company:"Dayari.ng · Lagos",period:"AUG 2023 – OCT 2024",
    quote:"Designed and launched a production e-commerce platform with strong SEO and user experience.",x:4890},
   {title:"Web Developer (Contract)",company:"Kollslashbar.com",period:"APR 2025",
@@ -841,28 +850,28 @@ const EXPERIENCES = [
 const PROJECTS = [
   {name:"Nexus Disrupt",category:"Fintech / Fraud Hackathon",
    description:"Built an interactive fraud-disruption dashboard for financial institutions, visualizing AI-driven fraud signals and real-time detection metrics.",
-   tech:["React","TypeScript","Recharts","Python"],github:"https://github.com/Sadiq-Teslim/nexus_d",
+   tech:["React","TypeScript","Recharts","Python"],website:"https://nexus-d.vercel.app/",
    color:"#7c3aed",colorDark:"#0e0520",colorAccent:"#a78bfa",x:5650},
   {name:"HealthWallet",category:"Hackathon Project",
    description:"A digital health-wallet concept focused on improving access to healthcare services and managing health-related expenses.",
-   tech:["React","JavaScript","TypeScript"],
+   tech:["React","JavaScript","TypeScript"],website:"https://health-wallet-seven.vercel.app/",
    color:"#2563eb",colorDark:"#020d20",colorAccent:"#60a5fa",x:5970},
   {name:"WooCommerce Plugin",category:"Production Workflow Plugin",
    description:"Developed a real-time production workflow plugin enabling collaboration, RBAC, messaging, WhatsApp integration, and audit logging.",
-   tech:["PHP","WordPress","WooCommerce","MySQL","REST API","WebSocket"],
+   tech:["PHP","WordPress","WooCommerce","MySQL","REST API","WebSocket"], github:"https://github.com/mcjohnsontech/Dynamic-Order-Management-for-WooCommerc",
    color:"#7e22ce",colorDark:"#08021a",colorAccent:"#d8b4fe",x:6280},
   {name:"Unilag Energy Club",category:"Official Website",
    description:"Designed and built the official website for the University of Lagos Energy Club to showcase initiatives and student-led innovation.",
-   tech:["HTML","CSS","JavaScript","React"],
+   tech:["HTML","CSS","JavaScript","React"], website:"https://unilag-energy-club.netlify.app",
    color:"#0e7490",colorDark:"#020c12",colorAccent:"#67e8f9",x:6590},
   {name:"AuxSync",category:"Playlist Transfer Tool",
    description:"Built a tool to transfer playlists between music streaming platforms including Spotify, YouTube, and Apple Music.",
    tech:["Python","Spotipy","YouTube SDK","Apple Music API"],github:"https://github.com/mcjohnsontech/AuxShare",
    color:"#9333ea",colorDark:"#0a0218",colorAccent:"#e879f9",x:6900},
-  {name:"Hallelujah Counter",category:"Web Application",
-   description:"Built a responsive, SEO-optimized web application with strong accessibility and performance.",
-   tech:["HTML","CSS","JavaScript","React"],
-   color:"#be185d",colorDark:"#100208",colorAccent:"#f9a8d4",x:7200},
+   {name:"WOTBusiness",category:"SaaS Application",
+    description:"A platform to automate your post-order conversations. Give customers live tracking, instant WhatsApp updates, and secure delivery codes. Focus on sales, not messages",
+    tech:["HTML","CSS","JavaScript","React", "Next.js", "TypeScript", "Tailwind CSS", "Shadcn UI", "PostgreSQL", "Supabase"],website:"https://wot-kamikaze.netlify.app/",
+    color:"#be185d",colorDark:"#100208",colorAccent:"#f9a8d4",x:7200},
 ];
 const TREES_DATA = [
   {x:260,v:0,s:1},{x:440,v:1,s:0.85},{x:630,v:2,s:1.1},{x:920,v:0,s:0.9},
