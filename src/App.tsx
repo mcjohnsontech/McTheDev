@@ -649,9 +649,9 @@ function Billboard({ title, company, period, quote, x, scrollX }: { title: strin
         }}>
           <div style={{ height:2,width:36,marginBottom:12,background:`linear-gradient(to right,${C.accent},transparent)` }}/>
           <div style={{ fontSize:9,color:C.accent,fontFamily:"monospace",letterSpacing:2,marginBottom:6 }}>{period}</div>
-          <div style={{ fontSize:15,fontWeight:"700",color:C.textPrimary,marginBottom:4,fontFamily:"'Playfair Display',Georgia,serif",lineHeight:1.3 }}>{title}</div>
+          <div style={{ fontSize:15,fontWeight:"700",color:C.textPrimary,marginBottom:4,fontFamily:"'Bricolage Grotesque',sans-serif",lineHeight:1.3 }}>{title}</div>
           <div style={{ fontSize:11,color:C.textDim,marginBottom:12,fontFamily:"monospace" }}>◈ {company}</div>
-          <div style={{ fontSize:12,lineHeight:1.65,color:C.textSecond,fontStyle:"italic",fontFamily:"Georgia,serif" }}>"{quote}"</div>
+          <div style={{ fontSize:12,lineHeight:1.65,color:C.textSecond,fontStyle:"italic",fontFamily:"'Bricolage Grotesque',sans-serif" }}>"{quote}"</div>
         </div>
       </div>
     </div>
@@ -742,9 +742,9 @@ function Modal({ project, onClose }: { project: Project | null; onClose: () => v
         <div style={{ fontSize:9,color:project.color,fontFamily:"monospace",letterSpacing:3,marginBottom:10 }}>
           {project.category.toUpperCase()}
         </div>
-        <h2 style={{ fontFamily:"'Playfair Display',Georgia,serif",fontSize:30,fontWeight:"700",
+        <h2 style={{ fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:30,fontWeight:"700",
           color:C.textPrimary,margin:"0 0 16px",lineHeight:1.15 }}>{project.name}</h2>
-        <p style={{ fontFamily:"Georgia,serif",fontSize:15,lineHeight:1.82,color:C.textSecond,margin:"0 0 28px" }}>
+        <p style={{ fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:15,lineHeight:1.82,color:C.textSecond,margin:"0 0 28px" }}>
           {project.description}
         </p>
         <div style={{ display:"flex",flexWrap:"wrap",gap:8,marginBottom:34 }}>
@@ -908,7 +908,7 @@ export default function App() {
 
   return (
     <div style={{ width:"100vw",height:"100vh",overflow:"hidden",cursor:"ew-resize",
-      userSelect:"none",position:"relative",background:C.skyZenith,fontFamily:"Georgia,serif" }}>
+      userSelect:"none",position:"relative",background:C.skyZenith,fontFamily:"'Bricolage Grotesque',sans-serif" }}>
 
       {/* Sky gradient */}
       <div style={{
@@ -1004,7 +1004,7 @@ export default function App() {
         </div>
         <h1 style={{
           fontSize:"clamp(42px,6.8vw,84px)",fontWeight:"700",color:C.textPrimary,margin:0,lineHeight:1.04,
-          fontFamily:"'Playfair Display',Georgia,serif",
+          fontFamily:"'Bricolage Grotesque',sans-serif",
           textShadow:`0 0 80px rgba(167,139,250,0.25), 0 0 160px rgba(120,60,220,0.12)`,
           letterSpacing:"-1.5px",
         }}>My Portfolio</h1>
@@ -1040,12 +1040,12 @@ export default function App() {
           <div style={{ height:2,width:40,background:`linear-gradient(to right,${C.accent},transparent)`,marginBottom:22 }}/>
           <div style={{ fontSize:9,color:C.accent,fontFamily:"monospace",letterSpacing:4,marginBottom:16 }}>02 — ORIGIN</div>
           <p style={{ fontSize:"clamp(15px,1.7vw,19px)",lineHeight:1.85,color:C.textPrimary,
-            fontFamily:"'Playfair Display',Georgia,serif",margin:0 }}>
+            fontFamily:"'Bricolage Grotesque',sans-serif",margin:0 }}>
             I'm a frontend developer<br/>
             based in{" "}
             <span style={{ color:C.accentBright,fontWeight:600 }}>Lagos, Nigeria.</span>
           </p>
-          <p style={{ fontSize:14,lineHeight:1.78,color:C.textSecond,fontFamily:"Georgia,serif",marginTop:18,marginBottom:0 }}>
+          <p style={{ fontSize:14,lineHeight:1.78,color:C.textSecond,fontFamily:"'Bricolage Grotesque',sans-serif",marginTop:18,marginBottom:0 }}>
             My journey started with curiosity — and it turned into building real products used by real people.
           </p>
         </div>
@@ -1064,7 +1064,7 @@ export default function App() {
         }}>
           <div style={{ fontSize:9,color:C.accent,fontFamily:"monospace",letterSpacing:4,marginBottom:7 }}>{eye}</div>
           <div style={{ fontSize:"clamp(26px,3.8vw,46px)",fontWeight:"700",color:C.textPrimary,
-            fontFamily:"'Playfair Display',Georgia,serif",lineHeight:1.08,
+            fontFamily:"'Bricolage Grotesque',sans-serif",lineHeight:1.08,
             textShadow:`0 0 40px rgba(167,139,250,0.2)` }}>{title}</div>
           <div style={{ fontSize:12,color:C.textDim,marginTop:7,fontFamily:"monospace" }}>{sub}</div>
         </div>
@@ -1082,7 +1082,7 @@ export default function App() {
         }}>
           <div style={{ height:2,width:40,background:`linear-gradient(to right,${C.accentGold},transparent)`,marginBottom:22 }}/>
           <div style={{ fontSize:9,color:C.accentGold,fontFamily:"monospace",letterSpacing:4,marginBottom:18 }}>06 — PRESENT</div>
-          <p style={{ fontFamily:"'Playfair Display',Georgia,serif",
+          <p style={{ fontFamily:"'Bricolage Grotesque',sans-serif",
             fontSize:"clamp(16px,1.9vw,21px)",lineHeight:1.78,color:C.textPrimary,
             fontStyle:"italic",margin:"0 0 34px" }}>
             "This is where I am now.<br/>
@@ -1120,7 +1120,7 @@ export default function App() {
       <Modal project={selectedProject} onClose={()=>setSelectedProject(null)}/>
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap');
         *{box-sizing:border-box;}
         body{margin:0;overflow:hidden;}
         @keyframes tw{from{opacity:0.2;}to{opacity:0.85;}}
