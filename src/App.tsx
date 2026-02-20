@@ -55,6 +55,18 @@ const C = {
 
 const TOTAL_WIDTH = 8000;
 
+type Project = {
+  name: string;
+  category: string;
+  description: string;
+  tech: string[];
+  github?: string;
+  color: string;
+  colorDark?: string;
+  colorAccent?: string;
+  x: number;
+};
+
 /* ═══════════════════════════════════════════════════════════════════════════
    SCROLL HOOK
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -62,9 +74,9 @@ function useHorizontalScroll() {
   const scrollXRef = useRef(0);
   const [scrollX, setScrollXState] = useState(0);
   const velocity = useRef(0);
-  const animFrame = useRef(null);
+  const animFrame = useRef<number | null>(null);
 
-  const setScrollX = useCallback((val) => {
+  const setScrollX = useCallback((val: number) => {
     const maxS = TOTAL_WIDTH - window.innerWidth;
     const clamped = Math.max(0, Math.min(maxS, val));
     scrollXRef.current = clamped;
@@ -72,11 +84,11 @@ function useHorizontalScroll() {
   }, []);
 
   useEffect(() => {
-    const onWheel = (e) => { e.preventDefault(); velocity.current += (e.deltaY + e.deltaX) * 0.85; };
+    const onWheel = (e: WheelEvent) => { e.preventDefault(); velocity.current += (e.deltaY + e.deltaX) * 0.85; };
     window.addEventListener("wheel", onWheel, { passive: false });
     let startX = 0;
-    const onTS = (e) => { startX = e.touches[0].clientX; };
-    const onTM = (e) => {
+    const onTS = (e: TouchEvent) => { startX = e.touches[0].clientX; };
+    const onTM = (e: TouchEvent) => {
       e.preventDefault();
       velocity.current += (startX - e.touches[0].clientX) * 2;
       startX = e.touches[0].clientX;
@@ -95,15 +107,17 @@ function useHorizontalScroll() {
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTS);
       window.removeEventListener("touchmove", onTM);
-      cancelAnimationFrame(animFrame.current);
+      if (animFrame.current !== null) {
+        cancelAnimationFrame(animFrame.current);
+      }
     };
   }, [setScrollX]);
 
-  const jumpTo = useCallback((target) => {
+  const jumpTo = useCallback((target: number) => {
     const start = scrollXRef.current, delta = target - start;
     const dur = 900, t0 = performance.now();
-    const ease = t => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
-    const run = now => {
+    const ease = (t: number) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+    const run = (now: number) => {
       const t = Math.min((now - t0) / dur, 1);
       setScrollX(start + delta * ease(t));
       if (t < 1) requestAnimationFrame(run);
@@ -138,7 +152,7 @@ function Stars() {
 /* ═══════════════════════════════════════════════════════════════════════════
    MOON — crescent with purple glow
    ═══════════════════════════════════════════════════════════════════════════ */
-function Moon({ progress }) {
+function Moon({ progress }: { progress: number }) {
   return (
     <div style={{ position:"absolute", left:"11%", top: progress > 0.8 ? 58 : 36,
       transition:"top 1.5s ease", pointerEvents:"none", zIndex:2 }}>
@@ -157,7 +171,7 @@ function Moon({ progress }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    CLOUD — purple-tinted
    ═══════════════════════════════════════════════════════════════════════════ */
-function Cloud({ absX, y, size, speed, scrollX }) {
+function Cloud({ absX, y, size, speed, scrollX }: { absX: number; y: number; size: number; speed: number; scrollX: number }) {
   const px = absX - scrollX * speed;
   if (px < -220 || px > window.innerWidth + 220) return null;
   return (
@@ -176,7 +190,7 @@ function Cloud({ absX, y, size, speed, scrollX }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    MOUNTAINS
    ═══════════════════════════════════════════════════════════════════════════ */
-function Mountains({ scrollX }) {
+function Mountains({ scrollX }: { scrollX: number }) {
   const W = TOTAL_WIDTH * 0.12;
   const off = scrollX * 0.08;
   return (
@@ -199,7 +213,7 @@ function Mountains({ scrollX }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    LAGOS SKYLINE — purple-lit 3D buildings
    ═══════════════════════════════════════════════════════════════════════════ */
-function LagosSkyline({ scrollX }) {
+function LagosSkyline({ scrollX }: { scrollX: number }) {
   const off = scrollX * 0.18;
   const BH = 290;
   const blds = [
@@ -259,7 +273,7 @@ function LagosSkyline({ scrollX }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    ROAD — purple-lit
    ═══════════════════════════════════════════════════════════════════════════ */
-function Road({ scrollX }) {
+function Road({ scrollX }: { scrollX: number }) {
   const dashCount = Math.ceil(window.innerWidth / 80) + 4;
   const dashOff = -(scrollX % 80);
   return (
@@ -294,7 +308,7 @@ function Road({ scrollX }) {
    Dark brown skin, very short close-cropped hair, navy blue collared shirt,
    strong jawline, defined cheekbones, subtle confident smile, slight beard
    ═══════════════════════════════════════════════════════════════════════════ */
-function AvatarRider({ wheelAngle }) {
+function AvatarRider() {
   return (
     <g>
       {/* ── TORSO (navy blue collared shirt) ── */}
@@ -439,14 +453,14 @@ function AvatarRider({ wheelAngle }) {
 function Bicycle() {
   const [angle, setAngle] = useState(0);
   useEffect(() => {
-    let id;
+    let id: number;
     const loop = () => { setAngle(a => a + 3.6); id = requestAnimationFrame(loop); };
     id = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(id);
   }, []);
 
   const spokes = [0,45,90,135,180,225,270,315];
-  const Wheel = ({cx,cy,r}) => (
+  const Wheel = ({cx,cy,r}: {cx: number; cy: number; r: number}) => (
     <g>
       <circle cx={cx+3} cy={cy+3} r={r} fill="none" stroke="rgba(0,0,0,0.4)" strokeWidth="5"/>
       <circle cx={cx} cy={cy} r={r} fill="none" stroke="#0e0820" strokeWidth="7"/>
@@ -510,7 +524,7 @@ function Bicycle() {
       <path d="M130,37 Q140,34 150,38" stroke="rgba(167,139,250,0.28)" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
 
       {/* Avatar rider */}
-      <AvatarRider wheelAngle={angle}/>
+      <AvatarRider/>
 
       {/* ground shadow */}
       <ellipse cx="84" cy="130" rx="62" ry="7" fill="rgba(40,0,80,0.4)"/>
@@ -521,7 +535,7 @@ function Bicycle() {
 /* ═══════════════════════════════════════════════════════════════════════════
    3D TREE — purple-forest tones
    ═══════════════════════════════════════════════════════════════════════════ */
-function Tree3D({ x, variant=0, size=1 }) {
+function Tree3D({ x, variant=0, size=1 }: { x: number; variant?: number; size?: number }) {
   const heights = [82,104,66];
   const h = heights[variant%3]*size;
   const palettes = [
@@ -556,7 +570,7 @@ function Tree3D({ x, variant=0, size=1 }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    ROAD SIGN — purple 3D
    ═══════════════════════════════════════════════════════════════════════════ */
-function RoadSign({ label, tooltip, x, scrollX }) {
+function RoadSign({ label, tooltip, x, scrollX }: { label: string; tooltip: string; x: number; scrollX: number }) {
   const [hov, setHov] = useState(false);
   const visible = scrollX + window.innerWidth * 0.9 > x;
   const relX = x - scrollX;
@@ -603,7 +617,7 @@ function RoadSign({ label, tooltip, x, scrollX }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    BILLBOARD
    ═══════════════════════════════════════════════════════════════════════════ */
-function Billboard({ title, company, period, quote, x, scrollX }) {
+function Billboard({ title, company, period, quote, x, scrollX }: { title: string; company: string; period: string; quote: string; x: number; scrollX: number }) {
   const visible = scrollX + window.innerWidth * 0.85 > x;
   const relX = x - scrollX;
   if (relX < -470 || relX > window.innerWidth + 420) return null;
@@ -646,7 +660,7 @@ function Billboard({ title, company, period, quote, x, scrollX }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    PROJECT STOP
    ═══════════════════════════════════════════════════════════════════════════ */
-function ProjectStop({ project, x, scrollX, onOpen }) {
+function ProjectStop({ project, x, scrollX, onOpen }: { project: Project; x: number; scrollX: number; onOpen: (project: Project) => void }) {
   const [hov, setHov] = useState(false);
   const visible = scrollX + window.innerWidth * 0.9 > x;
   const relX = x - scrollX;
@@ -701,7 +715,7 @@ function ProjectStop({ project, x, scrollX, onOpen }) {
 /* ═══════════════════════════════════════════════════════════════════════════
    MODAL
    ═══════════════════════════════════════════════════════════════════════════ */
-function Modal({ project, onClose }) {
+function Modal({ project, onClose }: { project: Project | null; onClose: () => void }) {
   if (!project) return null;
   return (
     <div onClick={onClose} style={{
@@ -733,7 +747,7 @@ function Modal({ project, onClose }) {
           {project.description}
         </p>
         <div style={{ display:"flex",flexWrap:"wrap",gap:8,marginBottom:34 }}>
-          {project.tech.map(t=>(
+          {project.tech.map((t: string)=>(
             <span key={t} style={{
               background:"rgba(167,139,250,0.07)",border:`1px solid rgba(167,139,250,0.18)`,
               color:C.accent,padding:"5px 15px",borderRadius:20,fontSize:11,fontFamily:"monospace",letterSpacing:"0.5px",
@@ -760,9 +774,9 @@ const SECTIONS = [
   {label:"Start",x:0},{label:"Origin",x:850},{label:"Skills",x:1950},
   {label:"Experience",x:3400},{label:"Projects",x:5500},{label:"Present",x:7300},
 ];
-function Nav({ scrollX, jumpTo }) {
+function Nav({ scrollX, jumpTo }: { scrollX: number; jumpTo: (target: number) => void }) {
   const maxS = TOTAL_WIDTH - window.innerWidth;
-  const [hov, setHov] = useState(null);
+  const [hov, setHov] = useState<string | null>(null);
   return (
     <div style={{
       position:"fixed",bottom:26,left:"50%",transform:"translateX(-50%)",
@@ -873,7 +887,7 @@ const CLOUDS = [
    ═══════════════════════════════════════════════════════════════════════════ */
 export default function App() {
   const { scrollX, progress, jumpTo } = useHorizontalScroll();
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const w = window.innerWidth;
 
   const showStart  = scrollX < 520;
